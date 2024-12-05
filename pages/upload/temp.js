@@ -8,36 +8,34 @@ export function processLargeJsonFile(file) {
       const jsonData = JSON.parse(event.target.result);
     
       const dictmostplayed = {};
-      const dictmostlistened = {};
+      
 
-      // Assuming jsonData is an array, loop through each item
-      jsonData.forEach((item, index) => {
-        const trackName = jsonData[index].master_metadata_track_name;
+      
+      jsonData.forEach(( item, index) => {
+        const trackName = jsonData[index].track_name;
         
-        if (!dictmostplayed[trackName]) {
-            dictmostplayed[trackName] = jsonData[index].ms_played;  
+
+        if ( jsonData[index].ms_played > 60000 ) {
+            
+            if (!dictmostplayed[trackName]) {
+                dictmostplayed[trackName] = 1;  
             }
-            dictmostplayed[trackName] += jsonData[index].ms_played; 
-        
+            dictmostplayed[trackName] += 1; 
+        }
        
       });
      
+     console.log(dictmostplayed);
       
+      const top10 = top10played(dictmostplayed);
+      console.log(top10);
       
-    console.log("Top 10 most played songs: ");
-    const top10 = top10played(dictmostplayed);
-    for (let i = 0; i < top10.length; i++) {
-        console.log(top10[i] , dictmostplayed[top10[i]]/1000);
-       }
     
-
-    };
-    
+    }
     reader.readAsText(file);
-  }
-  
+};
 
-  function top10played(dictmostplayed) {
+function top10played(dictmostplayed) {
     const tempDict = { ...dictmostplayed }; // Create a shallow copy of the dictionary
     const top10keys = [];
 
@@ -53,8 +51,9 @@ export function processLargeJsonFile(file) {
     return top10keys;
 }
 
-function top5artists(){}
 
-function top5albums(){}
+function top5artists(){};
+
+function top5albums(){};
 
   
