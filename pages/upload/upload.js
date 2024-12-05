@@ -2,8 +2,30 @@ let dictMostSong = {};
 let dictMostArt = {};
 let dictMostAlbum = {};
 
-export function processLargeJsonFile(file) {
-    const reader = new FileReader();
+export function processAll(files) {
+  dictMostSong = {};
+  dictMostArt = {};
+  dictMostAlbum = {};
+  const promises = Array.from(files).map(async (file) => {
+    if (file.type !== 'application/json') {
+      console.error(`File type not supported: ${file.type}`);
+      return;
+    }
+
+    console.log(`File: ${file.name}`);
+    await processLargeJsonFile(file);
+  });
+
+  Promise.all(promises).then(() => {
+    print(); // Ensures print is called after all files are processed
+  });
+}
+
+
+async function processLargeJsonFile(file) {
+  return new Promise((resolve) => {
+  
+  const reader = new FileReader();
     
     reader.onload = function (event) {
       // Parse the JSON string to an object
@@ -26,13 +48,14 @@ export function processLargeJsonFile(file) {
        
       });
      
-      print()
+      
     
-  
+      resolve();  
     };
     
     reader.readAsText(file);
-  }
+  });
+}
   
 
   function top10played(dictMostSong) {

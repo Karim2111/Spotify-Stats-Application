@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { processLargeJsonFile } from './upload/upload.js';
+import { processAll } from './upload/upload.js';
 
 export default function Home() {
   const handleButtonClick = () => {
@@ -10,24 +10,13 @@ export default function Home() {
   const handleUpload = (event) => {
     const files = event.target.files;
 
-    if (files && files.length > 0) {
-      console.log('Files contents uploaded:');
+
+    processAll(files);
+    
 
       
 
-      Array.from(files).forEach((file) => {
-        if (file.type !== 'application/json') {
-          console.error(`File type not supported: ${file.type}`);
-          return;
-        }
 
-        console.log(`File: ${file.name}`);
-        processLargeJsonFile(file);
-        
-        
-      });
-
-    }
   };
   
 
