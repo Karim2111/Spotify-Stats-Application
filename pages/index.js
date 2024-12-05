@@ -28,20 +28,7 @@ export default function Home() {
 
     }
   };
-  const handleFolderUpload = (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      console.log('Folder contents uploaded:');
-      Array.from(files).forEach((file) => {
-        if (file.type !== 'application/json') {
-          console.error(`File type not supported: ${file.type}`);
-          return;
-        }
-        console.log(`File: ${file.name}`);
-        processLargeJsonFile(file); 
-      });
-    }
-  };
+  
 
   return (
     <div className={styles.container}>
@@ -58,7 +45,6 @@ export default function Home() {
             id="upload-files"
             type="file"
             multiple // Allow multiple file selection
-            webkitdirectory // Allows folder selection alongside files
             onChange={handleUpload}
             style={{ display: 'none' }} // Hide the input
           />
