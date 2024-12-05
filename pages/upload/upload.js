@@ -1,4 +1,6 @@
-
+let dictMostSong = {};
+let dictMostArt = {};
+let dictMostAlbum = {};
 
 export function processLargeJsonFile(file) {
     const reader = new FileReader();
@@ -7,49 +9,26 @@ export function processLargeJsonFile(file) {
       // Parse the JSON string to an object
       const jsonData = JSON.parse(event.target.result);
     
-      const dictMostSong = {};
-      const dictMostArt = {};
+       
 
       // Assuming jsonData is an array, loop through each item
       jsonData.forEach((item, index) => {
         const trackName = jsonData[index].master_metadata_track_name;
         const artistName = jsonData[index].master_metadata_album_artist_name;
+        const albumName = jsonData[index].master_metadata_album_album_name;
 
-        if (!dictMostArt[artistName]) {
-            dictMostArt[artistName] = jsonData[index].ms_played;  
-          }
-        else dictMostArt[artistName] += jsonData[index].ms_played;
+        if (new Date(jsonData[index].ts).getUTCFullYear() == 2024) {
 
-        
-
-        
-        if (!dictMostSong[trackName]) {
-          dictMostSong[trackName] = jsonData[index].ms_played;  
-            }
-        else dictMostSong[trackName] += jsonData[index].ms_played; 
-        
+        addAlbum(dictMostAlbum, albumName, jsonData[index].ms_played);
+        addArt(dictMostArt, artistName, jsonData[index].ms_played);
+        addSong(dictMostSong, trackName, jsonData[index].ms_played);
+        }
        
       });
      
-      
-    console.log(dictMostArt);
-    console.log("Top 10 most played songs: ");
-    const top10 = top10played(dictMostSong);
-    for (let i = 0; i < top10.length; i++) {
-        console.log(top10[i] , dictMostSong[top10[i]]/60000);
-       }
+      print()
     
-    console.log("Top 5 most played artists: ");
-    const top5 = top5artists(dictMostArt);
-    for (let i = 0; i < top5.length; i++) {
-        console.log(top5[i] , dictMostArt[top5[i]]/60000);
-       }
-
-
-
-
-
-
+  
     };
     
     reader.readAsText(file);
@@ -88,6 +67,80 @@ function top5artists(dictMostArt){
     return top5keys;
 }
 
-function top5albums(){}
+function top5albums(dictMostAlbum){
+  const tempDict = { ...dictMostAlbum }; // Create a shallow copy of the dictionary
+  const top5keys = [];
 
-  
+  for (let i = 0; i < 5 && Object.keys(tempDict).length > 0; i++) {
+      const maxKey = Object.keys(tempDict).reduce((maxKey, currentKey) => {
+          return tempDict[currentKey] > tempDict[maxKey] ? currentKey : maxKey;
+      }, Object.keys(tempDict)[0]);
+
+      top5keys.push(maxKey);
+      delete tempDict[maxKey]; 
+  }
+
+  return top5keys;
+}
+
+
+function addSong(dictMostSong, trackName, ms_played){
+    if (!dictMostSong[trackName]) {
+        dictMostSong[trackName] = ms_played;  
+          }
+    else dictMostSong[trackName] += ms_played;
+}
+
+function addArt(dictMostArt, artistName, ms_played){
+    if (!dictMostArt[artistName]) {
+        dictMostArt[artistName] = ms_played;  
+          }
+    else dictMostArt[artistName] += ms_played;
+}
+
+function addAlbum(dictMostAlbum, albumName, ms_played){
+    if (!dictMostAlbum[albumName]) {
+        dictMostAlbum[albumName] = ms_played;  
+          }
+    else dictMostAlbum[albumName] += ms_played;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function print(){
+  console.log("Top 10 most played songs: ");
+    const top10song = top10played(dictMostSong);
+    for (let i = 0; i < top10song.length; i++) {
+        console.log(top10song[i] , dictMostSong[top10song[i]]/60000);
+  }
+    
+    console.log("Top 5 most played artists: ");
+    const top5art = top5artists(dictMostArt);
+    for (let i = 0; i < top5art.length; i++) {
+        console.log(top5art[i] , dictMostArt[top5art[i]]/60000);
+    }
+
+    console.log("Top 5 most played albums: ");
+    const top5alb = top5albums(dictMostAlbum);
+    for (let i = 0; i < top5alb.length; i++) {
+        console.log(top5alb[i] , dictMostAlbum[top5alb[i]]/60000);
+    }
+
+    
+    console.log("min played: ");
+    const totalPlays = Object.values(dictMostSong).reduce((sum, value) => sum + value, 0);
+    console.log(totalPlays/60000);
+}

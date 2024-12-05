@@ -11,7 +11,7 @@ export default function Home() {
     const files = event.target.files;
 
     if (files && files.length > 0) {
-      console.log('Files or Folder contents uploaded:');
+      console.log('Files contents uploaded:');
 
       
 
@@ -24,6 +24,7 @@ export default function Home() {
         console.log(`File: ${file.name}`);
         processLargeJsonFile(file);
         
+        
       });
 
     }
@@ -33,13 +34,13 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Upload Files or Folder - Next.js</title>
+        <title>Upload Files - Next.js</title>
       </Head>
 
       <main>
         <div style={{ marginTop: '20px' }}>
           <button onClick={handleButtonClick} className={styles.button}>
-            Upload Files or Folder
+            Upload Files
           </button>
           <input
             id="upload-files"
