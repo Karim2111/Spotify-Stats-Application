@@ -40,10 +40,9 @@ async function processLargeJsonFile(file) {
         const albumName = jsonData[index].master_metadata_album_album_name;
 
         if (new Date(jsonData[index].ts).getUTCFullYear() == 2024) {
-
-        addAlbum(dictMostAlbum, albumName, jsonData[index].ms_played);
-        addArt(dictMostArt, artistName, jsonData[index].ms_played);
-        addSong(dictMostSong, trackName, jsonData[index].ms_played);
+          add(dictMostSong, trackName, jsonData[index].ms_played);
+          add(dictMostArt, artistName, jsonData[index].ms_played);
+          add(dictMostAlbum, albumName, jsonData[index].ms_played);
         }
        
       });
@@ -57,6 +56,9 @@ async function processLargeJsonFile(file) {
   });
 }
   
+
+
+
 
   function top10played(dictMostSong) {
     const tempDict = { ...dictMostSong }; // Create a shallow copy of the dictionary
@@ -106,40 +108,13 @@ function top5albums(dictMostAlbum){
   return top5keys;
 }
 
+function add(dict, key, value) {
+  if (!dict[key]) {
+      dict[key] = value;  
+        }
+  else dict[key] += value;
 
-function addSong(dictMostSong, trackName, ms_played){
-    if (!dictMostSong[trackName]) {
-        dictMostSong[trackName] = ms_played;  
-          }
-    else dictMostSong[trackName] += ms_played;
 }
-
-function addArt(dictMostArt, artistName, ms_played){
-    if (!dictMostArt[artistName]) {
-        dictMostArt[artistName] = ms_played;  
-          }
-    else dictMostArt[artistName] += ms_played;
-}
-
-function addAlbum(dictMostAlbum, albumName, ms_played){
-    if (!dictMostAlbum[albumName]) {
-        dictMostAlbum[albumName] = ms_played;  
-          }
-    else dictMostAlbum[albumName] += ms_played;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
