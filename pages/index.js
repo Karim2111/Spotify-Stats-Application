@@ -1,16 +1,29 @@
-import React from 'react';
+// pages/index.js
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const HomePage = () => {
-  // This function will be called when the button is clicked
+  const router = useRouter();
+  
+  const token = router.query.access_token;
+  
+
   const handleLogin = () => {
-    // Redirect to the /api/login route
-    window.location.href = '/api/login'; // Use the internal Next.js API route
+    // Redirect to /api/login to initiate the login process
+    window.location.href = '/api/login';
   };
 
   return (
     <div>
-      <h1>Welcome to Spotify Stats</h1>
-      <button onClick={handleLogin}>Login with Spotify</button>
+      <h1>Spotify Stats</h1>
+      {!token ? (
+        <button onClick={handleLogin}>Login with Spotify</button>
+      ) : (
+        <div>
+          <h2>Logged In</h2>
+         
+        </div>
+      )}
     </div>
   );
 };
