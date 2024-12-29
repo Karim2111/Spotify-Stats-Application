@@ -1,12 +1,10 @@
-// pages/index.js
-
 import React from 'react';
 
 const HomePage = () => {
   // This function will be called when the button is clicked
   const handleLogin = () => {
-    // Redirect to the Express server's /login route
-    window.location.href = 'http://localhost:3000/login';
+    // Redirect to the /api/login route
+    window.location.href = '/api/login'; // Use the internal Next.js API route
   };
 
   return (
