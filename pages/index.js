@@ -1,11 +1,31 @@
 // pages/index.js
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import {getProfile, getTopArtist} from './api/functions.js';
 
 const HomePage = () => {
   const router = useRouter();
-  
   const token = router.query.access_token;
+  const [profile, setProfile] = useState(null);
+  const [topArtist, setTopArtist] = useState(null);
+
+
+  useEffect(() => {
+    if (token) {
+      getProfile(token).then(data => {
+        setProfile(data);
+      });
+    }
+  }, [token]);
+
+    useEffect(() => {
+    if (token) {
+      getTopArtist(token).then(data => {
+        setTopArtist(data);
+      });
+    }
+    }, [token]);
+  
   
 
   const handleLogin = () => {
@@ -21,6 +41,9 @@ const HomePage = () => {
       ) : (
         <div>
           <h2>Logged In</h2>
+          <p>
+            profile: {JSON.stringify(topArtist)}
+          </p>
          
         </div>
       )}

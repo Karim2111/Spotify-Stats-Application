@@ -1,5 +1,5 @@
 
-
-
-use spotify api with  spotify_track_uri": "spotify:track:1i1fxkWeaMmKEB4T7zqbzK"
-to possibily get track details like genre 
+using api:
+change scope based on info needed
+create function relative to what is needed
+if getting top artist need to further parse thru data to get name.
