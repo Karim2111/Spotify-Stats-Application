@@ -1,45 +1,20 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import { processAll } from './upload/upload.js';
+// pages/index.js
 
-export default function Home() {
-  const handleButtonClick = () => {
-    // Trigger the click event of the hidden file input
-    document.getElementById('upload-files').click();
+import React from 'react';
+
+const HomePage = () => {
+  // This function will be called when the button is clicked
+  const handleLogin = () => {
+    // Redirect to the Express server's /login route
+    window.location.href = 'http://localhost:3000/login';
   };
-  const handleUpload = (event) => {
-    const files = event.target.files;
-
-
-    processAll(files);
-    
-
-      
-
-
-  };
-  
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Upload Files - Next.js</title>
-      </Head>
-
-      <main>
-        <div style={{ marginTop: '20px' }}>
-          <button onClick={handleButtonClick} className={styles.button}>
-            Upload Files
-          </button>
-          <input
-            id="upload-files"
-            type="file"
-            multiple // Allow multiple file selection
-            onChange={handleUpload}
-            style={{ display: 'none' }} // Hide the input
-          />
-        </div>
-      </main>
+    <div>
+      <h1>Welcome to Spotify Stats</h1>
+      <button onClick={handleLogin}>Login with Spotify</button>
     </div>
   );
-}
+};
+
+export default HomePage;
