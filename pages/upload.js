@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { processAll } from './upload/upload.js';
+import { processAll } from '../components/utils/upload.js';
+import React from 'react';
 
 export default function Home() {
   const handleButtonClick = () => {
@@ -12,10 +13,7 @@ export default function Home() {
 
 
     processAll(files);
-    
-
-      
-
+  
 
   };
   

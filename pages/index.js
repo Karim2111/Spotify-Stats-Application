@@ -49,7 +49,7 @@ const HomePage = () => {
 
   const handleLogin = () => {
     // Redirect to /api/login to initiate the login process
-    window.location.href = '/api/login';
+    window.location.href = 'api/login';
   };
 
   return (
