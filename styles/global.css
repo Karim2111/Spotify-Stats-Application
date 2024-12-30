@@ -30,3 +30,37 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.artist-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping if there are many images */
+  gap: 10px; /* Space between items */
+}
+
+.artist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.artist-item img {
+  max-width: 100px; /* Adjust size as needed */
+  height: auto;
+}
+
+.tracks-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping if there are many images */
+  gap: 10px; /* Space between items */
+}
+
+.track-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.track-item img {
+  max-width: 100px; /* Adjust size as needed */
+  height: auto;
+}
