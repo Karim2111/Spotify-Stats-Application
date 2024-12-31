@@ -79,11 +79,11 @@ const HomePage = () => {
             <div className="mt-10">
               <h2 className="font-bold">Top Artists</h2>
               
-              <div className="flex flex-wrap gap-2" >
+              <div className="flex flex-wrap gap-2 mt-2" >
                 {processTopArtist(topArtist).map((artist, index) => (
                   <div key={index} className="flex flex-col ">
-                    <img src={artist.image} alt={artist.name} className="w-[125px] h-[125px] object-cover"/>
-                    <p className="max-w-[125px]  break-normal">{ ++index+". " + artist.name}</p>
+                    <img src={artist.image} alt={artist.name} className="w-[132px] h-[132px] object-cover rounded-full"/>
+                    <p className=" text-center text-sm  break-normal">{ ++index+". " + artist.name}</p>
                   </div>
                 ))}
               </div>
@@ -92,11 +92,11 @@ const HomePage = () => {
             {topTracks && (
                 <div className="mt-10">
                 <h2 className="font-bold" >Top Tracks</h2>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-2">
                   {processTopTracks(topTracks).map((track, index) => (
                     <div key={index} className="flex flex-col ">
-                        <img src={track.image} alt={track.name} className="w-[125px] h-[125px] object-cover" />
-                        <p className="max-w-[125px]  break-normal">{++index+". " +track.name}</p>
+                        <img src={track.image} alt={track.name} className="w-[132px] h-[132px] object-cover" />
+                        <p className="max-w-[125px] text-sm break-normal">{++index+". " +track.name}</p>
                     </div>
                 ))}
                 </div>
