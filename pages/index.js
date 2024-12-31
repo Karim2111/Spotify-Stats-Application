@@ -49,7 +49,6 @@ const HomePage = () => {
   
 
   const handleLogin = () => {
-    // Redirect to /api/login to initiate the login process
     window.location.href = 'api/login';
   };
 
@@ -60,7 +59,22 @@ const HomePage = () => {
         <button onClick={handleLogin}className="bg-green-600 text-black py-2 px-4 rounded hover:bg-green-700">Login with Spotify</button>
       ) : (
         <div>
-            <h1 >Welcome, {profile && profile.display_name}</h1>
+            {profile && (
+                <div className="flex items-center">
+                    <img 
+                        src={profile.images[0].url} 
+                        alt={profile.display_name} 
+                        className="w-[150px] h-[150px] rounded-full mr-4" 
+                    />
+                    <div>
+                        <h1 className="text-3xl font-bold">{profile.display_name}</h1>
+                        <p className="text-sm">{profile.email}</p>
+                        <p className="text-sm">{profile.followers.total} followers</p>
+                    </div>
+                </div>
+            )}
+            
+        
           {topArtist && (
             <div className="mt-10">
               <h2 className="font-bold">Top Artists</h2>
@@ -69,7 +83,7 @@ const HomePage = () => {
                 {processTopArtist(topArtist).map((artist, index) => (
                   <div key={index} className="flex flex-col ">
                     <img src={artist.image} alt={artist.name} className="w-[125px] h-[125px] object-cover"/>
-                    <p className="max-w-[125px]  break-normal">{artist.name}</p>
+                    <p className="max-w-[125px]  break-normal">{ ++index+". " + artist.name}</p>
                   </div>
                 ))}
               </div>
@@ -80,9 +94,9 @@ const HomePage = () => {
                 <h2 className="font-bold" >Top Tracks</h2>
                 <div className="flex flex-wrap gap-2">
                   {processTopTracks(topTracks).map((track, index) => (
-                    <div key={index} className="flex flex-col items-center">
+                    <div key={index} className="flex flex-col ">
                         <img src={track.image} alt={track.name} className="w-[125px] h-[125px] object-cover" />
-                        <p className="max-w-[125px]  break-normal">{track.name}</p>
+                        <p className="max-w-[125px]  break-normal">{++index+". " +track.name}</p>
                     </div>
                 ))}
                 </div>
