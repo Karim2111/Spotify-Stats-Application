@@ -1,7 +1,7 @@
 
 import React, { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import {getProfile, getTopArtist, getTopTracks} from './api/functions.js';
+import {getProfile, getTopArtist, getTopTracks, getRecentlyPlayed} from './api/functions.js';
 
 import { processAll } from '../components/utils/upload.js';
 
@@ -23,6 +23,16 @@ function processTopTracks(data) {
         };
     });
 }
+function processRecentlyPlayed(data) {
+  return data.items.map(item => {
+    return {
+      trackName: item.track.name,
+      albumImage: item.track.album.images[0].url,
+      playedAt: new Date(item.played_at).toLocaleString(),
+    };
+  });
+}
+
 
 
 const HomePage = () => {
@@ -31,7 +41,7 @@ const HomePage = () => {
   const [profile, setProfile] = useState(null);
   const [topArtist, setTopArtist] = useState(null);
   const [topTracks, setTopTracks] = useState(null);
-
+  const [recentlyPlayed, setRecentlyPlayed] = useState(null);
   
 
   useEffect(() => {
@@ -44,6 +54,9 @@ const HomePage = () => {
       });   
       getTopTracks(token).then(data => {
         setTopTracks(data);
+      });
+      getRecentlyPlayed(token).then(data => {
+        setRecentlyPlayed(data);
       });
     }
   }, [token]);
@@ -68,6 +81,21 @@ const HomePage = () => {
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-10">
+      <div className="absolute top-10 right-10 z-10">
+        <button
+          onClick={handleButtonClick}
+          className="bg-blue-600 py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Upload Files
+        </button>
+        <input
+          id="upload-files"
+          type="file"
+          multiple
+          onChange={handleUpload}
+          style={{ display: 'none' }}
+        />
+      </div>
       
       {!token ? (
         <button onClick={handleLogin}className="bg-green-600 text-black py-2 px-4 rounded hover:bg-green-700">Login with Spotify</button>
@@ -116,26 +144,31 @@ const HomePage = () => {
                 </div>
             </div>
             )}
-         
-         
+            {recentlyPlayed && (
+              <div className="mt-10">
+                <h2 className="font-bold">Recently Played</h2>
+                <table className="table-auto w-100 mt-2">
+                  <tbody>
+                    {processRecentlyPlayed(recentlyPlayed).map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td className="w-[80px]">
+                            <img src={item.albumImage} alt={item.trackName} className="w-[80px] h-[80px] object-cover" />
+                          </td>
+                          <td className="max-w-[220px] overflow-hidden text-ellipsis">{item.trackName}</td>
+                          <td className="text-right text-xs text-gray-400 max-w-[125px]">{item.playedAt}</td> {}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
         </div>
       )}
-      <div className="mt-10">
-        <button
-          onClick={handleButtonClick}
-          className="bg-blue-600 py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Upload Files
-        </button>
-        <input
-          id="upload-files"
-          type="file"
-          multiple
-          onChange={handleUpload}
-          style={{ display: 'none' }}
-        />
+      
       </div>
-    </div>
+  
   );
 };
 

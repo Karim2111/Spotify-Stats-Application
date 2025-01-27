@@ -7,7 +7,7 @@ const redirect_uri = process.env.REDIRECT_URI;
 export default function handler(req, res) {
   if (req.method === 'GET') {
     const state = generateRandomString(16);
-    const scope = 'user-read-private user-read-email user-top-read';
+    const scope = 'user-read-private user-read-email user-top-read user-read-recently-played';
 
     const redirectUrl = `https://accounts.spotify.com/authorize?` + querystring.stringify({
       response_type: 'code',
