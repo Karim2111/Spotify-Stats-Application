@@ -1,7 +1,9 @@
-// pages/index.js
+
 import React, { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {getProfile, getTopArtist, getTopTracks} from './api/functions.js';
+
+import { processAll } from '../components/utils/upload.js';
 
 
 
@@ -51,6 +53,18 @@ const HomePage = () => {
   const handleLogin = () => {
     window.location.href = 'api/login';
   };
+  const handleButtonClick = () => {
+      // Trigger the click event of the hidden file input
+      document.getElementById('upload-files').click();
+    };
+    const handleUpload = (event) => {
+      const files = event.target.files;
+  
+  
+      processAll(files);
+    
+  
+    };
 
   return (
     <div className="bg-gray-900 text-white min-h-screen p-10">
@@ -106,6 +120,21 @@ const HomePage = () => {
          
         </div>
       )}
+      <div className="mt-10">
+        <button
+          onClick={handleButtonClick}
+          className="bg-blue-600 py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Upload Files
+        </button>
+        <input
+          id="upload-files"
+          type="file"
+          multiple
+          onChange={handleUpload}
+          style={{ display: 'none' }}
+        />
+      </div>
     </div>
   );
 };
